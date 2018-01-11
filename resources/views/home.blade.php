@@ -14,16 +14,19 @@
                         </div>
                     @endif
 
-                   email: {{ Auth::user()->email }} 
-                 
-                  
+                    @if(session()->has('message'))
+                        <div class="alert alert-success">
+                        {{session()->get('message')}}
+                        </div>
+                        @endif
+                   <!-- email: {{ Auth::user()->email }}  -->
                    
-                   
-                   
-                    <div class="text-right">
-                    <button type="button" class="btn btn-success "><a href ="modifyUser">Modifier </a></button>
-                    <div class="text-right">
+                    <div>
+                    <button type="button" class="btn btn-success "><a href ="{{ route('account') }}">Account </a></button>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>

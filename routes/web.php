@@ -1,12 +1,19 @@
 <?php
-
-
-Route::get('modifyUser',array(
-    'as'=>'modifyUser',
-    'uses'=>'Controller@modifyUser'
-));
+Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('account',array(
+    'as'=>'account',
+    'uses'=>'Controller@account'
+))->middleware('auth');;
+
+
+Route::post('account-modify',array(
+    'as'=>'account-modify',
+    'uses'=>'Controller@accountModify'
+))->middleware('auth');;
+
+
+
 
 
