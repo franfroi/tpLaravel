@@ -8,10 +8,14 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use App\Http\Requests\AccountRequest;
+use App\Http\Requests\TransferRequest;
 use Illuminate\Http\Request;
 use App\User;
+use App\Wallet;
+use App\Money;
 
 use App\Repositories\UserRepository;
+use App\Repositories\WalletRepository;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
@@ -21,9 +25,12 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
      private $UserRepo;
-     public function __construct(UserRepository $UserRepo)
+     private $walletRepo;
+
+     public function __construct(UserRepository $UserRepo , WalletRepository $walletRepo)
      {
          $this->UserRepo=$UserRepo;
+         $this->walletRepo=$walletRepo;
       
      }
 
@@ -38,27 +45,12 @@ class Controller extends BaseController
     public function accountModify(AccountRequest $request){
         $userId=Auth::user()->id;
         $mailcurrent=Auth::user()->email; 
-        $current_password = Auth::User()->password;    
+         
       
-
-      
-        dump($current_password);
         $r=$request->all();
-         $name=$r['name'];
-         $email=$r['email'];
-         $password=$r['newPassword'];
-
-         if(!Hash::check($password,  $current_password)){
-            dd('Return error with current passowrd is not match.');
-        }else{
-            dd('Write here your update password code');
-        }
-      
-        
-         $new=bcrypt(sha1(md5($password)));
-        
-         dump($new);
-         die();
+        $name=$r['name'];
+        $email=$r['email'];
+       
         //  //check mail
         // if ($email!=$mailcurrent)
         // {
@@ -83,5 +75,53 @@ class Controller extends BaseController
         
     }  
 
+    public function showWallet(){
+        $userId=Auth::user()->id;
+        $wallet=$this->walletRepo->getWallet($userId);
+        return view('home',array("wallet"=>$wallet));
+    }
 
+
+    public function transfer(){
+
+        $userId=Auth::user()->id;
+        $transfer=$this->walletRepo->getWallet($userId);
+        foreach ($transfer as $item){
+            $key[]=$item->key;
+           
+        }
+       
+        return view('transfer',array("key"=>$key));
+
+    //     $money = Money::all();
+    //     $arrayCategs=array();
+    //     foreach ($money as $c){
+    //         $arrayDescriptionMoney[$c['id']] = $c->description;
+    //         // je met à gauche l'id et à droite la description en string
+    //         // exemple: id =>'bitcoin',
+           
+    //     }
+     
+    //      return view('transfer',array("money"=>$arrayDescriptionMoney));
+     }
+
+    public function setTransfer(TransferRequest $request){
+        $userId=Auth::user()->id;
+        $mailcurrent=Auth::user()->email; 
+
+        $wallet = Wallet::all();
+        $arraywallet=array();
+        // foreach ($wallet as $element){
+        //    $element->key;
+        //    dd(  $element);
+        // }
+       
+       
+        // $r=$request->all();
+        // $wallet=$r['wallet'];
+        // $type=$r['type'];
+        // $amount=$r['amount'];
+
+        // $wallet=$this->walletRepo->transferMoney($wallet,$type,$amount,$id);
+    }
 }

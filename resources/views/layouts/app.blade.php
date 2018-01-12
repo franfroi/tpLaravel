@@ -73,7 +73,7 @@
 
         @yield('content')
     </div>
-
+    @yield('transfer')
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

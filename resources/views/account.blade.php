@@ -39,18 +39,7 @@ Account
                                     {{Form::label('email','Email')}}
                                     {{Form::text('email',Auth::user()->email ,['class'=>'form-control'])}}
                             </div>
-                            <div class="form-group">
-                                    {{Form::label('currentPassword','Current Password')}}
-                                    {{Form::text('currentPassword',"",['class'=>'form-control'])}}
-                            </div>
-                            <div class="form-group">
-                                    {{Form::label('newPassword','New Password')}}
-                                    {{Form::text('newPassword',"",['class'=>'form-control'])}}
-                            </div>
-                            <div class="form-group">
-                                    {{Form::label('renewPassword','Confirm new Password')}}
-                                    {{Form::text('rePassword',"",['class'=>'form-control'])}}
-                            </div>
+                            
                             {{Form::button('submit',array(
                                      'type'=>'submit',
                                      'class'=> 'btn btn-primary'

@@ -4,7 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-class AccountRequest extends FormRequest
+
+class TransferRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,12 +29,10 @@ class AccountRequest extends FormRequest
             // The format of the rule is:
             // unique:table,column,except,idColumn
             
-           'name'=>'required|min:6|max:20',
-           'email'     => Auth::check()
-           ? 'required|email|unique:users,email,'.Auth::id()
-           : 'required|email|unique:users,email',
+           'wallet'=>'required|min:5|max:20',
+           'amount' =>'required|numeric|between:1,1000000',
           
-              
+      
                
             ];
     }
@@ -48,10 +47,9 @@ public function messages()
 
 
     return [
-        'name.required' => 'name required',
-        'email.required'  => 'E-mail required ',
-        'email.unique'  => 'E-mail exists yet ',
-        'email.email'  => 'E-mail address has a wrong format  ',
+        'wallet.required' => 'Wallet required',
+        'amount.required'  => 'Amount required ',
+        
       
     ];
 }
